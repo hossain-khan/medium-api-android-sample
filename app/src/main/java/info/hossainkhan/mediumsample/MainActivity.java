@@ -14,8 +14,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.swagger.client.ApiClient;
+import io.swagger.client.api.UsersApi;
+import io.swagger.client.model.UserResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        loadUserDetails();
+    }
+
+    private void loadUserDetails() {
+        ApiClient apiClient = new ApiClient();
+        apiClient.createDefaultAdapter();
+
+        UsersApi usersApi = apiClient.createService(UsersApi.class);
+
+        Call<UserResponse> userResponseCall = usersApi.meGet();
+
+        userResponseCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+            }
+        });
     }
 
     @Override
