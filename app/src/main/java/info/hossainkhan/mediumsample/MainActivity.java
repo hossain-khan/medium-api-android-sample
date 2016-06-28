@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import info.hossainkhan.mediumsample.core.MediumSampleApplication;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.UsersApi;
 import io.swagger.client.model.UserResponse;
@@ -72,8 +73,7 @@ public class MainActivity extends AppCompatActivity
 
     private void loadUserDetails() {
         Log.d(TAG, "loadUserDetails: Executing.");
-        ApiClient apiClient = new ApiClient();
-        apiClient.createDefaultAdapter();
+        ApiClient apiClient = ((MediumSampleApplication) getApplication()).getApiClient();
 
         UsersApi usersApi = apiClient.createService(UsersApi.class);
 
