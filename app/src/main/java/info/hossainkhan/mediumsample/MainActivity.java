@@ -13,6 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.UsersApi;
@@ -27,10 +31,18 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private TextView mMainContentText;
+    private TextView mTitleText;
+    private TextView mEmailText;
+    private ImageView mThumbImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mMainContentText = (TextView) findViewById(R.id.content_main_text);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,11 +63,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mTitleText = (TextView) navigationView.findViewById(R.id.nav_header_title_text);
+        mEmailText = (TextView) navigationView.findViewById(R.id.nav_header_email_text);
+        mThumbImage = (ImageView) navigationView.findViewById(R.id.nav_header_thumb_image);
 
         loadUserDetails();
     }
 
     private void loadUserDetails() {
+        Log.d(TAG, "loadUserDetails: Executing.");
         ApiClient apiClient = new ApiClient();
         apiClient.createDefaultAdapter();
 
@@ -67,13 +83,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
+                mMainContentText.setText("Success");
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+                mMainContentText.setText("Fail");
             }
         });
+        Log.d(TAG, "loadUserDetails: " + userResponseCall.isCanceled() + ", " + userResponseCall.isExecuted());
     }
 
     @Override

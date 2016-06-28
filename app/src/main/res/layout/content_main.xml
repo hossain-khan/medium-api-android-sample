@@ -11,6 +11,7 @@
     tools:showIn="@layout/app_bar_main">
 
     <TextView
+        android:id="@+id/content_main_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"

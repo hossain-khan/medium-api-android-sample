@@ -55,6 +55,8 @@ public class PublicationDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(PublicationDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(PublicationDetailFragment.ARG_ITEM_ID));
+            arguments.putString(PublicationDetailFragment.ARG_ITEM_DATA,
+                    getIntent().getStringExtra(PublicationDetailFragment.ARG_ITEM_DATA));
             PublicationDetailFragment fragment = new PublicationDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
