@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -40,7 +41,7 @@ public class ApiClient {
 
     public ApiClient() {
         apiAuthorizations = new LinkedHashMap<String, Interceptor>();
-        createDefaultAdapter();
+        //createDefaultAdapter();
     }
 
     public ApiClient(String[] authNames) {
@@ -107,7 +108,15 @@ public class ApiClient {
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                 .create();
 
-        okClient = new OkHttpClient();
+       OkHttpClient.Builder builder = new OkHttpClient.Builder();
+       for (Map.Entry<String, Interceptor> entry : apiAuthorizations.entrySet())
+       {
+           builder.addInterceptor(entry.getValue());
+       }
+       HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+       httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+       builder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
+       okClient = builder.build();
 
         String baseUrl = "https://api.medium.com/v1";
         if(!baseUrl.endsWith("/"))
@@ -249,7 +258,7 @@ public class ApiClient {
             throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
         }
         apiAuthorizations.put(authName, authorization);
-        okClient.interceptors().add(authorization);
+        //okClient.interceptors().add(authorization);
     }
 
     public Map<String, Interceptor> getApiAuthorizations() {
