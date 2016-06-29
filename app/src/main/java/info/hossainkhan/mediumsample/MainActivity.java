@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import info.hossainkhan.mediumsample.core.MediumSampleApplication;
+import info.hossainkhan.mediumsample.core.MediumApplication;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.UsersApi;
 import io.swagger.client.model.User;
@@ -35,13 +35,13 @@ public class MainActivity extends AppCompatActivity
     private TextView mTitleText;
     private TextView mEmailText;
     private ImageView mThumbImage;
-    private MediumSampleApplication mMediumApplication;
+    private MediumApplication mMediumApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMediumApplication = (MediumSampleApplication) getApplication();
+        mMediumApplication = (MediumApplication) getApplication();
 
         mMainContentText = (TextView) findViewById(R.id.content_main_text);
 

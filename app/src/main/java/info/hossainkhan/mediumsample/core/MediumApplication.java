@@ -9,8 +9,8 @@ import io.swagger.client.model.User;
 /**
  * Application class for the app.
  */
-public class MediumSampleApplication extends Application {
-    private static final String TAG = MediumSampleApplication.class.getSimpleName();
+public class MediumApplication extends Application {
+    private static final String TAG = MediumApplication.class.getSimpleName();
 
     // TODO - This needs to come from user.
     public static final String apiToken = "";
@@ -31,7 +31,7 @@ public class MediumSampleApplication extends Application {
 
     public ApiClient getApiClient() {
         if(apiClient == null) {
-            apiClient = new ApiClient(BEARER, BEARER + " " + MediumSampleApplication.apiToken);
+            apiClient = new ApiClient(BEARER, BEARER + " " + MediumApplication.apiToken);
             apiClient.createDefaultAdapter();
         }
         return apiClient;

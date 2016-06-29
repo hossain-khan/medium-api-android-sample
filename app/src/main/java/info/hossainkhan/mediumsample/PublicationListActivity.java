@@ -19,10 +19,9 @@ import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 
-import info.hossainkhan.mediumsample.core.MediumSampleApplication;
+import info.hossainkhan.mediumsample.core.MediumApplication;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.PublicationsApi;
-import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.model.Publication;
 import io.swagger.client.model.PublicationResponse;
 import retrofit2.Call;
@@ -86,7 +85,7 @@ public class PublicationListActivity extends AppCompatActivity {
 
     private void loadPublications() {
         Log.d(TAG, "loadPublications: Executing.");
-        ApiClient apiClient = ((MediumSampleApplication) getApplication()).getApiClient();
+        ApiClient apiClient = ((MediumApplication) getApplication()).getApiClient();
 
         PublicationsApi publicationsApi = apiClient.createService(PublicationsApi.class);
 
