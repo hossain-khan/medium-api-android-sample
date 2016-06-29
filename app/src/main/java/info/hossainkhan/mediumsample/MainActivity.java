@@ -17,16 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.squareup.picasso.Picasso;
 
-import info.hossainkhan.mediumsample.core.MediumSampleApplication;
+import info.hossainkhan.mediumsample.core.MediumApplication;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.UsersApi;
+import io.swagger.client.model.User;
 import io.swagger.client.model.UserResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,11 +37,13 @@ public class MainActivity extends AppCompatActivity
     private TextView mTitleText;
     private TextView mEmailText;
     private ImageView mThumbImage;
+    private MediumApplication mMediumApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mMediumApplication = (MediumApplication) getApplication();
 
         mMainContentText = (TextView) findViewById(R.id.content_main_text);
 
@@ -65,16 +67,30 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mTitleText = (TextView) navigationView.findViewById(R.id.nav_header_title_text);
-        mEmailText = (TextView) navigationView.findViewById(R.id.nav_header_email_text);
-        mThumbImage = (ImageView) navigationView.findViewById(R.id.nav_header_thumb_image);
+        View navigationHeaderView = navigationView.getHeaderView(0);
+        mTitleText = (TextView) navigationHeaderView.findViewById(R.id.nav_header_title_text);
+        mEmailText = (TextView) navigationHeaderView.findViewById(R.id.nav_header_email_text);
+        mThumbImage = (ImageView) navigationHeaderView.findViewById(R.id.nav_header_thumb_image);
 
-        loadUserDetails();
+        if(mMediumApplication.isUserAvailable()) {
+            populateUserData(mMediumApplication.getUser());
+        } else {
+            loadUserDetails();
+        }
+    }
+
+    private void populateUserData(final User user) {
+        Log.d(TAG, "populateUserData() called with: user = [" + user + "]");
+        mTitleText.setText(user.getName());
+        mEmailText.setText(user.getUrl());
+        Picasso.with(this).load(user.getImageUrl()).into(mThumbImage);
+        mMainContentText.setText(user.toString());
     }
 
     private void loadUserDetails() {
         Log.d(TAG, "loadUserDetails: Executing.");
-        ApiClient apiClient = ((MediumSampleApplication) getApplication()).getApiClient();
+
+        ApiClient apiClient = mMediumApplication.getApiClient();
 
         UsersApi usersApi = apiClient.createService(UsersApi.class);
 
@@ -85,8 +101,9 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
                 if(response.isSuccessful()) {
-                    UserResponse userInfo = response.body();
-                    mMainContentText.setText(userInfo.getData().getName());
+                    User userInfo = response.body().getData();
+                    mMediumApplication.setUser(userInfo);
+                    populateUserData(userInfo);
                 } else {
                     Toast.makeText(MainActivity.this, "User details request failed.\n" + response.errorBody().source().toString(), Toast.LENGTH_SHORT).show();
                 }

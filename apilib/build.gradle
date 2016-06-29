@@ -20,6 +20,10 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -42,17 +46,15 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
 
+    // OkHttp - logging
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
     // Swagger (for server api client)
     compile "io.swagger:swagger-annotations:1.5.9"
 
     // Apache Oltu - https://oltu.apache.org/
-    //compile 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.common:1.0.2'
     compile 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2'
 
-    // Gson
-    //compile 'org.immutables:gson:2.2.8'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
