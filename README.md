@@ -10,7 +10,7 @@ Code Gen Tools
 Install [swagger code gen](https://github.com/swagger-api/swagger-codegen) to be able to generate library specific code for certain language. For this example, we are going to generate Retrofit 2 compliant code for Java. 
 
 ```
-swagger-codegen generate --input-spec medium-api-specification.yaml -l java --library retrofit2 --output medium-api-android-retrofit-client
+swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 --output medium-api-android-retrofit-client
 ```
 
  * Option 1: Copy all the files under source.
@@ -45,7 +45,7 @@ Advance Topic
 Retrofit with RxJava - if you are info RxJava, you can generate retrofit+rxjava client library using following command line
 
 ```
-TODO - find the command.
+swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 -DuseRxJava=true --output medium-api-android-retrofit-rxjava-client
 ```
 
 License
