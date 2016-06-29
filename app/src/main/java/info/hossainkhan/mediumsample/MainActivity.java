@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         mTitleText.setText(user.getName());
         mEmailText.setText(user.getUrl());
         Picasso.with(this).load(user.getImageUrl()).into(mThumbImage);
+        mMainContentText.setText(user.toString());
     }
 
     private void loadUserDetails() {
