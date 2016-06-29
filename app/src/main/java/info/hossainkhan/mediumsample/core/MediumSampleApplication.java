@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import io.swagger.client.ApiClient;
+import io.swagger.client.model.User;
 
 /**
  * Application class for the app.
@@ -20,6 +21,7 @@ public class MediumSampleApplication extends Application {
     public static final String BEARER = "Bearer";
 
     private ApiClient apiClient;
+    private User userInfo;
 
     @Override
     public void onCreate() {
@@ -34,4 +36,17 @@ public class MediumSampleApplication extends Application {
         }
         return apiClient;
     }
+
+    public boolean isUserAvailable() {
+        return userInfo != null;
+    }
+
+    public User getUser() {
+        return userInfo;
+    }
+
+    public void setUser(User user) {
+        userInfo = user;
+    }
+
 }
