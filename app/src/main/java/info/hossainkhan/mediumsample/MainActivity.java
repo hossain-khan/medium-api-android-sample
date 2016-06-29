@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -83,7 +84,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
-                mMainContentText.setText("Success");
+                if(response.isSuccessful()) {
+                    UserResponse userInfo = response.body();
+                    mMainContentText.setText(userInfo.getData().getName());
+                } else {
+                    Toast.makeText(MainActivity.this, "User details request failed.\n" + response.errorBody().source().toString(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
