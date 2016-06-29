@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import info.hossainkhan.mediumsample.core.MediumApplication;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.UsersApi;
@@ -65,9 +67,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mTitleText = (TextView) navigationView.findViewById(R.id.nav_header_title_text);
-        mEmailText = (TextView) navigationView.findViewById(R.id.nav_header_email_text);
-        mThumbImage = (ImageView) navigationView.findViewById(R.id.nav_header_thumb_image);
+        View navigationHeaderView = navigationView.getHeaderView(0);
+        mTitleText = (TextView) navigationHeaderView.findViewById(R.id.nav_header_title_text);
+        mEmailText = (TextView) navigationHeaderView.findViewById(R.id.nav_header_email_text);
+        mThumbImage = (ImageView) navigationHeaderView.findViewById(R.id.nav_header_thumb_image);
 
         if(mMediumApplication.isUserAvailable()) {
             populateUserData(mMediumApplication.getUser());
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity
 
     private void populateUserData(final User user) {
         Log.d(TAG, "populateUserData() called with: user = [" + user + "]");
+        mTitleText.setText(user.getName());
+        mEmailText.setText(user.getUrl());
+        Picasso.with(this).load(user.getImageUrl()).into(mThumbImage);
     }
 
     private void loadUserDetails() {

@@ -40,7 +40,11 @@ dependencies {
     // GSON
     compile 'com.google.code.gson:gson:2.7'
 
+    // Retrofit classes provided for compiling
     provided 'com.squareup.retrofit2:retrofit:2.1.0'
+
+    // Picass
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
