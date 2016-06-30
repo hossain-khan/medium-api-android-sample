@@ -104,9 +104,9 @@ Here is an example of calling `/me` api endpoint using asynchronous call _(Sourc
 
 Example to `publications/{publicationId}/contributors` API call can also be found at  _[PublicationListActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/PublicationListActivity.java)_
 
-Advance Topic
-===================
-Retrofit with RxJava - if you are interested in [RxJava](https://github.com/ReactiveX/RxJava), you can generate retrofit+rxjava client library using following command line
+Retrofit + RxJava
+-------------------
+If you are interested in [RxJava](https://github.com/ReactiveX/RxJava), you can generate retrofit+rxjava client library using following command line
 
 ```
 swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 -DuseRxJava=true --output medium-api-android-retrofit-rxjava-client
