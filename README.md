@@ -13,8 +13,13 @@ Install [swagger code gen](https://github.com/swagger-api/swagger-codegen) to be
 swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 --output medium-api-android-retrofit-client
 ```
 
- * Option 1: Copy all the files under generated source.
+After successfull execution, it will generate code in destination folder defined by `--output` directory. Here is a **[snapshot](https://github.com/amardeshbd/medium-api-android-sample/tree/master/apilib/src/main/java/io/swagger/client)** of generated code found in this repository.
+
+Once code is generated, you may choose any of the available options.
+
+ * Option 1: Copy all the files under generated source and import in android project _(Used this method in current project - See `apilib` gradle module)_.
  * Option 2: You can execute `gradle build` to build jar file that can be included in your android project. 
+ * Option 3: Use their `pom.xml` file to host library in maven repo
 
 ### Known issue on generated code:
 During my testing I found bug in `ApiClient` class related to ApiKey authentication. Update following block of code to make it compatible with api key authentication. 
