@@ -53,20 +53,17 @@ Here is an example of calling `/me` api endpoint using asynchronous call
     userResponseCall.enqueue(new Callback<UserResponse>() {
         @Override
         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-    
             if(response.isSuccessful()) {
                 User userInfo = response.body().getData();
-                mMediumApplication.setUser(userInfo);
-                populateUserData(userInfo);
+                // Use the `userInfo` object to update UI
             } else {
-                Toast.makeText(MainActivity.this, "User details request failed.\n" + response.errorBody().source().toString(), Toast.LENGTH_SHORT).show();
-                mMainContentText.setText("Request Failed\n" + response.errorBody().source().toString());
+                // API access denied - show message (eg. `response.errorBody().source().toString()` )
             }
         }
     
         @Override
         public void onFailure(Call<UserResponse> call, Throwable t) {
-            mMainContentText.setText("Request Failed");
+            // Network request failed.
         }
     });
 ```
