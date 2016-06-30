@@ -55,7 +55,7 @@ public void createDefaultAdapter() {
 
 ```
 
-Here is my **[github gist]()** to complete `ApiClient` class
+Here is my **[github gist](https://gist.github.com/amardeshbd/063213c29ebc5bf98ff071df0c22a44c)** to complete `ApiClient` class
 
 > `TODO` Report this issue to swagger-codegen project. 
 
