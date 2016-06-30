@@ -39,7 +39,7 @@ On `addAuthorization()` method comment out following line, which give unsupporte
 // okClient.interceptors().add(authorization);
 ```
 
-Finally om `createDefaultAdapter()` method implementation, initialize `okClient` using builder,which allows adding interceptors during build time.
+Finally on `createDefaultAdapter()` method implementation, initialize `okClient` using builder,which allows adding interceptors during build time.
 ```java
 public void createDefaultAdapter() {
     // ... more code above ...
@@ -47,9 +47,6 @@ public void createDefaultAdapter() {
     for (Map.Entry<String, Interceptor> entry : apiAuthorizations.entrySet()) {
         builder.addInterceptor(entry.getValue());
     }
-    HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-    builder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
     okClient = builder.build();
     
     // .. more code below ...
