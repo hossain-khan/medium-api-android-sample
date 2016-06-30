@@ -39,7 +39,7 @@ On `addAuthorization()` method comment out following line, which give unsupporte
 // okClient.interceptors().add(authorization);
 ```
 
-Finally om `createDefaultAdapter()` method implementation, initialize `okClient` using builder,which allows adding interceptors during build time.
+Finally on `createDefaultAdapter()` method implementation, initialize `okClient` using builder,which allows adding interceptors during build time.
 ```java
 public void createDefaultAdapter() {
     // ... more code above ...
@@ -47,9 +47,6 @@ public void createDefaultAdapter() {
     for (Map.Entry<String, Interceptor> entry : apiAuthorizations.entrySet()) {
         builder.addInterceptor(entry.getValue());
     }
-    HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-    builder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
     okClient = builder.build();
     
     // .. more code below ...
@@ -72,9 +69,10 @@ Create an instance of `ApiClient` using following code.
 
 ```java
     final String BEARER = "Bearer"; // For header based API-Key authentication
+    final String TOKEN = ""; // Your self-issued access tokens
     private ApiClient apiClient;
     
-    apiClient = new ApiClient(BEARER, BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
+    apiClient = new ApiClient(BEARER, BEARER + " " + TOKEN);
     apiClient.createDefaultAdapter(); // initializes the client with URL, HTTP Client, Gson and so on.
 ```
 
@@ -106,9 +104,9 @@ Here is an example of calling `/me` api endpoint using asynchronous call _(Sourc
 
 Example to `publications/{publicationId}/contributors` API call can also be found at  _[PublicationListActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/PublicationListActivity.java)_
 
-Advance Topic
-===================
-Retrofit with RxJava - if you are interested in [RxJava](https://github.com/ReactiveX/RxJava), you can generate retrofit+rxjava client library using following command line
+Retrofit + RxJava
+-------------------
+If you are interested in [RxJava](https://github.com/ReactiveX/RxJava), you can generate retrofit+rxjava client library using following command line
 
 ```
 swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 -DuseRxJava=true --output medium-api-android-retrofit-rxjava-client
