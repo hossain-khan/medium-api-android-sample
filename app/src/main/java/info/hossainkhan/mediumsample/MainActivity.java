@@ -91,28 +91,26 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "loadUserDetails: Executing.");
 
         ApiClient apiClient = mMediumApplication.getApiClient();
-
         UsersApi usersApi = apiClient.createService(UsersApi.class);
-
         Call<UserResponse> userResponseCall = usersApi.meGet();
 
         userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
+
                 if(response.isSuccessful()) {
                     User userInfo = response.body().getData();
                     mMediumApplication.setUser(userInfo);
                     populateUserData(userInfo);
                 } else {
                     Toast.makeText(MainActivity.this, "User details request failed.\n" + response.errorBody().source().toString(), Toast.LENGTH_SHORT).show();
+                    mMainContentText.setText("Request Failed\n" + response.errorBody().source().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
-                mMainContentText.setText("Fail");
+                mMainContentText.setText("Request Failed");
             }
         });
         Log.d(TAG, "loadUserDetails: " + userResponseCall.isCanceled() + ", " + userResponseCall.isExecuted());
