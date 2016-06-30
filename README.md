@@ -7,11 +7,12 @@ If you are interested in learning best practices for developing android apps, pl
 
 Library Code Gen
 -------------------
-Install [swagger code gen](https://github.com/swagger-api/swagger-codegen) to be able to generate library specific code for certain language. For this example, we are going to generate **[Retrofit 2](http://square.github.io/retrofit/)** compliant Java library for [medium.com](https://github.com/Medium/medium-api-docs) using OpenAPI specification found in [medium-api-specification](https://github.com/amardeshbd/medium-api-specification). 
+Install [swagger codegen](https://github.com/swagger-api/swagger-codegen) to be able to generate library specific code for certain language. For this example, we are going to generate **[Retrofit 2](http://square.github.io/retrofit/)** compliant Java library for [medium.com](https://github.com/Medium/medium-api-docs) using OpenAPI specification found in [medium-api-specification](https://github.com/amardeshbd/medium-api-specification). 
 
 ```
 swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 --output medium-api-android-retrofit-client
 ```
+> NOTE: If you haven't installed `swagger-codegen` via MacOSX's brew, you may replace `swagger-codegen` with `java -jar swagger-codegen-cli.jar` to use the jar distribution.
 
 After successfull execution, it will generate code in destination folder defined by `--output` directory. Here is a **[snapshot](https://github.com/amardeshbd/medium-api-android-sample/tree/master/apilib/src/main/java/io/swagger/client)** of generated code found in this repository.
 
