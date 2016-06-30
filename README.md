@@ -69,9 +69,10 @@ Create an instance of `ApiClient` using following code.
 
 ```java
     final String BEARER = "Bearer"; // For header based API-Key authentication
+    final String TOKEN = ""; // Your self-issued access tokens
     private ApiClient apiClient;
     
-    apiClient = new ApiClient(BEARER, BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
+    apiClient = new ApiClient(BEARER, BEARER + " " + TOKEN);
     apiClient.createDefaultAdapter(); // initializes the client with URL, HTTP Client, Gson and so on.
 ```
 
