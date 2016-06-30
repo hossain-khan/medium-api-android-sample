@@ -20,7 +20,39 @@ swagger-codegen generate --input-spec medium-api-specification.yaml --lang java 
 During my testing I found bug in `ApiClient` class related to ApiKey authentication. Update following block of code to make it compatible with api key authentication. 
 
 ```java
--- code
+
+/* On the default constructor comment out calling `createDefaultAdapter()` method */
+public ApiClient() {
+    apiAuthorizations = new LinkedHashMap<String, Interceptor>();
+    // createDefaultAdapter(); 
+}
+
+/* On addAuthorization() method comment out following line, which give unsupported operation exception. */
+// okClient.interceptors().add(authorization);
+
+
+/*
+ * Finally om `createDefaultAdapter()` method implementation, initialize `okClient` using builder,
+ * which allows adding interceptors during build time.
+ */
+public void createDefaultAdapter() {
+    // ... more code above ...
+    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    for (Map.Entry<String, Interceptor> entry : apiAuthorizations.entrySet()) {
+        builder.addInterceptor(entry.getValue());
+    }
+    HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    builder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
+    okClient = builder.build();
+    
+    // .. more code below ...
+}
+
+
+/* Remember, since the `ApiClient()` constructor does not call `createDefaultAdapter()`, 
+   we need to manually call this after `ApiClient` instance is created. See example below. */
+
 ```
 
 Here is my **[github gist]()** to complete `ApiClient` class
