@@ -28,6 +28,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * {@link MainActivity} created with "Navigation Drawer Activity" template.
+ *
+ * Minimal modification has been done to provide basic UI feedback on API call.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,6 +64,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Don't need the fab for this project. Disable it.
+        fab.setVisibility(View.GONE);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -79,14 +87,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Updates UI with provided user model data.
+     *
+     * @param user User instance.
+     * @see #loadUserDetails()
+     */
     private void populateUserData(final User user) {
         Log.d(TAG, "populateUserData() called with: user = [" + user + "]");
         mTitleText.setText(user.getName());
         mEmailText.setText(user.getUrl());
         Picasso.with(this).load(user.getImageUrl()).into(mThumbImage);
+
+        // Also shows RAW user info in the main container
         mMainContentText.setText(user.toString());
     }
 
+    /**
+     * Loads user details by calling {@link UsersApi#meGet()}.<p/>
+     *
+     * <b>NOTE: You must provide your self-issued access tokens in {@link MediumApplication#MEDIUM_USER_INTEGRATION_TOKEN}</b>
+     */
     private void loadUserDetails() {
         Log.d(TAG, "loadUserDetails: Executing.");
 
@@ -97,7 +118,6 @@ public class MainActivity extends AppCompatActivity
         userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-
                 if(response.isSuccessful()) {
                     User userInfo = response.body().getData();
                     mMediumApplication.setUser(userInfo);
