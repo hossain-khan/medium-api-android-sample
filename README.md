@@ -80,7 +80,7 @@ Create an instance of `ApiClient` using following code.
 
 Once you have the api client instance, you can create retrofit service classes and call the api. See [Retrofit](http://square.github.io/retrofit/) for more info. 
 
-Here is an example of calling `/me` api endpoint using asynchronous call
+Here is an example of calling `/me` api endpoint using asynchronous call _(Source: [MainActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/MainActivity.java))_
 
 ```java
     UsersApi usersApi = apiClient.createService(UsersApi.class);
@@ -104,7 +104,7 @@ Here is an example of calling `/me` api endpoint using asynchronous call
     });
 ```
 
-
+Example to `publications/{publicationId}/contributors` API call can also be found at  _[PublicationListActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/PublicationListActivity.java)_
 
 Advance Topic
 ===================
