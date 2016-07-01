@@ -26,7 +26,7 @@ Once code is generated, you may choose any of the available options.
 During my testing I found bug in generated `ApiClient` class related to ApiKey authentication. Update following block of code to make it compatible with api key authentication. 
 
 
-On the default constructor comment out calling `createDefaultAdapter()` method as follows: 
+On the default constructor disable `createDefaultAdapter()` method as follows: 
 ```java
 public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, Interceptor>();
@@ -34,12 +34,12 @@ public ApiClient() {
 }
 ```
 
-On `addAuthorization()` method comment out following line, which give unsupported operation exception.
+On `addAuthorization()` method disable the following line, which gives unsupported operation exception.
 ```java
 // okClient.interceptors().add(authorization);
 ```
 
-Finally on `createDefaultAdapter()` method implementation, initialize `okClient` using builder,which allows adding interceptors during build time.
+Finally on `createDefaultAdapter()` method implementation, initialize `okClient` using builder, which allows adding interceptors during build time.
 ```java
 public void createDefaultAdapter() {
     // ... more code above ...
@@ -53,17 +53,17 @@ public void createDefaultAdapter() {
 }
 ```
 
-Remember, since the `ApiClient()` constructor does not call `createDefaultAdapter()`,  we need to manually call this after `ApiClient` instance is created. See example below.
+Remember, since the `ApiClient()` constructor does not invoke `createDefaultAdapter()`,  we need to manually invoke this after `ApiClient` instance is created. See example below.
 
 
-Here is my **[github gist](https://gist.github.com/amardeshbd/063213c29ebc5bf98ff071df0c22a44c)** of complete `ApiClient` class.
+Here is my **[github gist](https://gist.github.com/amardeshbd/063213c29ebc5bf98ff071df0c22a44c)** of modified `ApiClient` class.
 
 > `TODO` Report this issue to swagger-codegen project. 
 
 
 Using Generated Library
 -----------------------
-Once you have generated code with modificate stated above, now you can use your [generated self-issued access tokens](https://github.com/Medium/medium-api-docs#22-self-issued-access-tokens) from medium.com's [user settings](https://medium.com/me/settings) to access the endpoints. 
+Once you have generated code with modification mentioned above, you can use your [generated self-issued access tokens](https://github.com/Medium/medium-api-docs#22-self-issued-access-tokens) from medium.com's [user settings](https://medium.com/me/settings) to access the endpoints. 
 
 Create an instance of `ApiClient` using following code. 
 
@@ -76,9 +76,9 @@ Create an instance of `ApiClient` using following code.
     apiClient.createDefaultAdapter(); // initializes the client with URL, HTTP Client, Gson and so on.
 ```
 
-Once you have the api client instance, you can create retrofit service classes and call the api. See [Retrofit](http://square.github.io/retrofit/) for more info. 
+Once you have the api client instance, you can create retrofit service class and invoke the api. See [Retrofit](http://square.github.io/retrofit/) for more info. 
 
-Here is an example of calling `/me` api endpoint using asynchronous call _(Source: [MainActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/MainActivity.java))_
+Here is an example of invoking `/me` api endpoint using asynchronous call _(Source: [MainActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/MainActivity.java))_
 
 ```java
     UsersApi usersApi = apiClient.createService(UsersApi.class);
@@ -102,11 +102,11 @@ Here is an example of calling `/me` api endpoint using asynchronous call _(Sourc
     });
 ```
 
-Example to `publications/{publicationId}/contributors` API call can also be found at  _[PublicationListActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/PublicationListActivity.java)_
+Example to `publications/{publicationId}/contributors` API call can also be found at _[PublicationListActivity.java](https://github.com/amardeshbd/medium-api-android-sample/blob/master/app/src/main/java/info/hossainkhan/mediumsample/PublicationListActivity.java)_
 
 Retrofit + RxJava
 -------------------
-If you are interested in [RxJava](https://github.com/ReactiveX/RxJava), you can generate retrofit+rxjava client library using following command line
+If you are interested in [RxJava](https://github.com/ReactiveX/RxJava), you can generate retrofit+rxjava client library using the following command line
 
 ```
 swagger-codegen generate --input-spec medium-api-specification.yaml --lang java --library retrofit2 -DuseRxJava=true --output medium-api-android-retrofit-rxjava-client
@@ -116,4 +116,4 @@ See swagger-codegen project's documentation for more hidden features `^_^`
 
 License
 ===================
-This project is subject to the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html).
+This project is subject to The MIT License (MIT).
