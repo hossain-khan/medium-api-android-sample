@@ -171,20 +171,22 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Log.d(TAG, "onNavigationItemSelected() called with: item = [" + item + "]");
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        if (id == R.id.nav_publishers) {
+            MediumApplication application = (MediumApplication) getApplication();
+            if(application.isUserAvailable()) {
+                startActivity(PublicationListActivity.createIntent(this, application.getUser().getId()));
+            } else {
+                Toast.makeText(application, "Invalid user information. Unable to proceed.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (id == R.id.nav_my_info) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_github) {
 
         }
 
