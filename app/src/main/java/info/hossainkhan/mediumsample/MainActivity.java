@@ -1,5 +1,7 @@
 package info.hossainkhan.mediumsample;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +40,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String GITHUB_PROJECT_URL = "https://github.com/amardeshbd/medium-api-android-sample";
 
     private TextView mMainContentText;
     private TextView mTitleText;
     private TextView mEmailText;
     private ImageView mThumbImage;
     private MediumApplication mMediumApplication;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +190,18 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_info) {
 
         } else if (id == R.id.nav_share) {
+            // https://developer.android.com/training/sharing/send.html
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Checkout instruction on creating android retrofit client library from OpenAPI Specification using swagger-codegen at " + GITHUB_PROJECT_URL);
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, "Share..."));
 
         } else if (id == R.id.nav_github) {
+            String url = GITHUB_PROJECT_URL;
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
 
         }
 
