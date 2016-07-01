@@ -1,5 +1,7 @@
 package info.hossainkhan.mediumsample;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,16 +31,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * {@link MainActivity} created with "Navigation Drawer Activity" template.
+ *
+ * Minimal modification has been done to provide basic UI feedback on API call.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String GITHUB_PROJECT_URL = "https://github.com/amardeshbd/medium-api-android-sample";
 
     private TextView mMainContentText;
     private TextView mTitleText;
     private TextView mEmailText;
     private ImageView mThumbImage;
     private MediumApplication mMediumApplication;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +69,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Don't need the fab for this project. Disable it.
+        fab.setVisibility(View.GONE);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -79,14 +92,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Updates UI with provided user model data.
+     *
+     * @param user User instance.
+     * @see #loadUserDetails()
+     */
     private void populateUserData(final User user) {
         Log.d(TAG, "populateUserData() called with: user = [" + user + "]");
         mTitleText.setText(user.getName());
         mEmailText.setText(user.getUrl());
         Picasso.with(this).load(user.getImageUrl()).into(mThumbImage);
+
+        // Also shows RAW user info in the main container
         mMainContentText.setText(user.toString());
     }
 
+    /**
+     * Loads user details by calling {@link UsersApi#meGet()}.<p/>
+     *
+     * <b>NOTE: You must provide your self-issued access tokens in {@link MediumApplication#MEDIUM_USER_INTEGRATION_TOKEN}</b>
+     */
     private void loadUserDetails() {
         Log.d(TAG, "loadUserDetails: Executing.");
 
@@ -97,7 +123,6 @@ public class MainActivity extends AppCompatActivity
         userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-
                 if(response.isSuccessful()) {
                     User userInfo = response.body().getData();
                     mMediumApplication.setUser(userInfo);
@@ -151,20 +176,32 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Log.d(TAG, "onNavigationItemSelected() called with: item = [" + item + "]");
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        if (id == R.id.nav_publishers) {
+            MediumApplication application = (MediumApplication) getApplication();
+            if(application.isUserAvailable()) {
+                startActivity(PublicationListActivity.createIntent(this, application.getUser().getId()));
+            } else {
+                Toast.makeText(application, "Invalid user information. Unable to proceed.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (id == R.id.nav_my_info) {
 
         } else if (id == R.id.nav_share) {
+            // https://developer.android.com/training/sharing/send.html
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Checkout instruction on creating android retrofit client library from OpenAPI Specification using swagger-codegen at " + GITHUB_PROJECT_URL);
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, "Share..."));
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_github) {
+            String url = GITHUB_PROJECT_URL;
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
 
         }
 
