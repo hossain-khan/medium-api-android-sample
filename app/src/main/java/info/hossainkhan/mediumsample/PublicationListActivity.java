@@ -43,17 +43,41 @@ public class PublicationListActivity extends AppCompatActivity {
 
     private static final String TAG = PublicationListActivity.class.getSimpleName();
 
+    private static final String BUNDLE_KEY_USER_ID = "info.hossainkhan.mediumsample.USER_ID";
+
+    /**
+     * Creates an intent with list of supported bundle data by this activity.
+     * This intent should be used when starting this activity.
+     *
+     * @param userId User's ID
+     * @return Bundle with data prepared for this activity.
+     */
+    public static Intent createIntent(final Context context, final String userId) {
+        Intent intent = new Intent(context, PublicationListActivity.class);
+        intent.putExtra(BUNDLE_KEY_USER_ID, userId);
+
+        return intent;
+    }
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
     private SimpleItemRecyclerViewAdapter recyclerViewAdapter;
+    private String mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publication_list);
+
+        if (savedInstanceState == null) {
+            Bundle bundle = getIntent().getExtras();
+            if(bundle != null) {
+                mUserId = bundle.getString(BUNDLE_KEY_USER_ID);
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,16 +104,21 @@ public class PublicationListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        loadPublications();
+        loadPublications(mUserId);
     }
 
-    private void loadPublications() {
+    /**
+     * Loads publications associated with the user by calling {@link PublicationsApi#usersUserIdPublicationsGet(String)}.<p/>
+     *
+     * <b>NOTE: You must provide your self-issued access tokens in {@link MediumApplication#MEDIUM_USER_INTEGRATION_TOKEN}</b>
+     */
+    private void loadPublications(final String userId) {
         Log.d(TAG, "loadPublications: Executing.");
         ApiClient apiClient = ((MediumApplication) getApplication()).getApiClient();
 
         PublicationsApi publicationsApi = apiClient.createService(PublicationsApi.class);
 
-        Call<PublicationResponse> publicationResponseCall = publicationsApi.usersUserIdPublicationsGet("user-id");
+        Call<PublicationResponse> publicationResponseCall = publicationsApi.usersUserIdPublicationsGet(userId);
 
         publicationResponseCall.enqueue(new Callback<PublicationResponse>() {
             @Override
@@ -196,7 +225,8 @@ public class PublicationListActivity extends AppCompatActivity {
 
     /**
      * Converts object to JSON string.
-     * @param publication
+     *
+     * @param publication Publication instance.
      * @return JSON text for publication.
      * @see #convertFromJson(String)
      */
@@ -206,7 +236,8 @@ public class PublicationListActivity extends AppCompatActivity {
 
     /**
      * Converts JSON text to Publication.
-     * @param publicationJsonTxt
+     *
+     * @param publicationJsonTxt JSON content for Publication.
      * @return Publication instance from JSON.
      * @see #convertToJson(Publication)
      */
