@@ -37,6 +37,7 @@ ext {
     supportLibraryVersion = '23.4.0'
     junitVersion = '4.12'
     daggerVersion = '2.2'
+    gsonVersion = '2.7'
     retrofitVersion = '2.1.0'
     okHttpVersion = '3.3.1'
     swaggerVersion = '1.5.9'

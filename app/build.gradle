@@ -44,7 +44,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
 
     // GSON
-    compile 'com.google.code.gson:gson:2.7'
+    compile "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     // Retrofit classes provided for compiling
     provided 'com.squareup.retrofit2:retrofit:2.1.0'
