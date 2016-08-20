@@ -1,14 +1,16 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 22
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 10
+        versionName "2.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -37,27 +39,34 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     // Retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
 
     // OkHttp - logging
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
     // Swagger (for server api client)
-    compile "io.swagger:swagger-annotations:1.5.9"
+    compile "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
 
     // Apache Oltu - https://oltu.apache.org/
-    compile 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2'
+    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
+        /*
+         * NOTE: Swagger generated client library depends on "org.apache.oltu.oauth2.client", which
+         * includes classes from "org.apache.oltu.oauth2.common". So, we explicitly need to exclude
+         * common library being added during compilation to avoid "Multiple dex files" error.
+         */
+        exclude module: 'org.apache.oltu.oauth2.common'
+    }
 
 
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:$rootProject.junitVersion"
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
 }
