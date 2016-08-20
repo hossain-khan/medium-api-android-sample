@@ -31,7 +31,7 @@ ext {
     targetSdkVersion = 24
     compileSdkVersion = 24
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
-    buildToolsVersion = '23.0.3'
+    buildToolsVersion = '24.0.1'
 
     // App dependencies
     supportLibraryVersion = '23.4.0'
