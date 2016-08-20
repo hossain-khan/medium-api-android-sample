@@ -28,8 +28,8 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     minSdkVersion = 22
-    targetSdkVersion = 23
-    compileSdkVersion = 23
+    targetSdkVersion = 24
+    compileSdkVersion = 24
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
     buildToolsVersion = '23.0.3'
 
