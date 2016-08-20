@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "info.hossainkhan.mediumsample"
-        minSdkVersion 22
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 10
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,10 +38,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':apilib')
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
 
     // GSON
     compile 'com.google.code.gson:gson:2.7'
@@ -52,5 +55,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
 }
