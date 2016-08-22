@@ -13,6 +13,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -116,6 +118,10 @@ public class ApiClient {
                 .create();
 
         okBuilder = new OkHttpClient.Builder();
+
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okBuilder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
 
         String baseUrl = "https://api.medium.com/v1";
         if(!baseUrl.endsWith("/"))
