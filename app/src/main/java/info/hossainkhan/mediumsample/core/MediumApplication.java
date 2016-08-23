@@ -58,7 +58,6 @@ public class MediumApplication extends Application {
         if(apiClient == null) {
             apiClient = new ApiClient(AUTH_ID_API_KEY_TOKEN,
                     BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
-            apiClient.createDefaultAdapter();
         }
         return apiClient;
     }
