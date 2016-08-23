@@ -53,17 +53,17 @@ public class OAuthOkHttpClient implements HttpClient {
         RequestBody body = request.getBody() != null ? RequestBody.create(mediaType, request.getBody()) : null;
         requestBuilder.method(requestMethod, body);
 
-        //try {
+//        try {
 //            Response response = client.newCall(requestBuilder.build()).execute();
 //            return OAuthClientResponseFactory.createCustomResponse(
 //                    response.body().string(),
 //                    response.body().contentType().toString(),
 //                    response.code(),
 //                    responseClass);
-            return null;
 //        } catch (IOException e) {
 //            throw new OAuthSystemException(e);
 //        }
+        return null; // FIXME: Oauth should be tested
     }
 
     public void shutdown() {
