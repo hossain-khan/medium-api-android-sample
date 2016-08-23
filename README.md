@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/amardeshbd/medium-api-android-sample.svg)](https://travis-ci.org/amardeshbd/medium-api-android-sample) [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/medium-api-android-sample.svg)](https://github.com/amardeshbd/medium-api-android-sample/issues) [![Swagger Codegen Version Used](https://img.shields.io/badge/swagger--codegen-v2.3.0-blue.svg)](https://github.com/swagger-api/swagger-codegen) [![OpenAPI Specification - medium.com](https://img.shields.io/badge/OpenAPI-medium.com-brightgreen.svg)](https://github.com/amardeshbd/medium-api-specification/blob/master/medium-api-specification.yaml)
+
 Android Sample - Medium API
 ===================
 Sample android app for medium. It showcases process of generating Android Retrofit 2 api-client library from OpenAPI specification and how to use the `ApiClient` and retrofit.
