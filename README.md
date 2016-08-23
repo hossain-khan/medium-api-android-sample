@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/amardeshbd/medium-api-android-sample.svg)](https://travis-ci.org/amardeshbd/medium-api-android-sample) [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/medium-api-android-sample.svg)](https://github.com/amardeshbd/medium-api-android-sample/issues) [![Swagger Codegen Version Used](https://img.shields.io/badge/swagger--codegen-v2.3.0-blue.svg)](https://github.com/swagger-api/swagger-codegen) [![OpenAPI Specification - medium.com](https://img.shields.io/badge/OpenAPI-medium.com-brightgreen.svg)](https://github.com/amardeshbd/medium-api-specification/blob/master/medium-api-specification.yaml)
+
 Android Sample - Medium API
 ===================
 Sample android app for medium. It showcases process of generating Android Retrofit 2 api-client library from OpenAPI specification and how to use the `ApiClient` and retrofit.
@@ -25,36 +27,19 @@ Once code is generated, you may choose any of the available options.
 ### Known issue on generated code:
 During my testing I found bug in generated `ApiClient` class related to ApiKey authentication. Update following block of code to make it compatible with api key authentication. 
 
-
-On the default constructor disable `createDefaultAdapter()` method as follows: 
-```java
-public ApiClient() {
-    apiAuthorizations = new LinkedHashMap<String, Interceptor>();
-    // createDefaultAdapter(); 
-}
-```
-
-On `addAuthorization()` method disable the following line, which gives unsupported operation exception.
-```java
-// okClient.interceptors().add(authorization);
-```
-
-Finally on `createDefaultAdapter()` method implementation, initialize `okClient` using builder, which allows adding interceptors during build time.
+On `createDefaultAdapter()` method implementation, after `okBuilder` is created, add the interceptors to builder.
 ```java
 public void createDefaultAdapter() {
     // ... more code above ...
-    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    okBuilder = new OkHttpClient.Builder();
+
+    // [DEV NOTE: Added custom code to add interceptors for authorizations]
     for (Map.Entry<String, Interceptor> entry : apiAuthorizations.entrySet()) {
-        builder.addInterceptor(entry.getValue());
+        okBuilder.addInterceptor(entry.getValue());
     }
-    okClient = builder.build();
-    
     // .. more code below ...
 }
 ```
-
-Remember, since the `ApiClient()` constructor does not invoke `createDefaultAdapter()`,  we need to manually invoke this after `ApiClient` instance is created. See example below.
-
 
 Here is my **[github gist](https://gist.github.com/amardeshbd/063213c29ebc5bf98ff071df0c22a44c)** of modified `ApiClient` class.
 
@@ -68,12 +53,12 @@ Once you have generated code with modification mentioned above, you can use your
 Create an instance of `ApiClient` using following code. 
 
 ```java
+    final String AUTH_ID_API_KEY = "BearerToken"; // Auth ID for "apiKey" security defined in API specification
     final String BEARER = "Bearer"; // For header based API-Key authentication
     final String TOKEN = ""; // Your self-issued access tokens
     private ApiClient apiClient;
     
-    apiClient = new ApiClient(BEARER, BEARER + " " + TOKEN);
-    apiClient.createDefaultAdapter(); // initializes the client with URL, HTTP Client, Gson and so on.
+    apiClient = new ApiClient(AUTH_ID_API_KEY, BEARER + " " + TOKEN);
 ```
 
 Once you have the api client instance, you can create retrofit service class and invoke the api. See [Retrofit](http://square.github.io/retrofit/) for more info. 

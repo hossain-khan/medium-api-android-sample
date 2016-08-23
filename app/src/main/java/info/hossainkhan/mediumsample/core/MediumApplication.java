@@ -2,6 +2,9 @@ package info.hossainkhan.mediumsample.core;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Locale;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.model.User;
@@ -25,6 +28,11 @@ public class MediumApplication extends Application {
      */
     private static final String BEARER = "Bearer";
 
+    /**
+     * Auth type name for API key bearer token.
+     */
+    private static final String AUTH_ID_API_KEY_TOKEN = "BearerToken";
+
     private ApiClient apiClient;
     private User userInfo;
 
@@ -34,7 +42,10 @@ public class MediumApplication extends Application {
         Log.d(TAG, "onCreate: Application created.");
 
         if ("".equals(MEDIUM_USER_INTEGRATION_TOKEN)) {
-            throw new RuntimeException("You must provide your integration token.");
+            String errorMessage = String.format(Locale.US, "You must provide your integration token.\n" +
+                    "See `%s` class source code for more information.", TAG);
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            Log.w(TAG, errorMessage);
         }
     }
 
@@ -45,8 +56,8 @@ public class MediumApplication extends Application {
      */
     public ApiClient getApiClient() {
         if(apiClient == null) {
-            apiClient = new ApiClient(BEARER, BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
-            apiClient.createDefaultAdapter();
+            apiClient = new ApiClient(AUTH_ID_API_KEY_TOKEN,
+                    BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
         }
         return apiClient;
     }

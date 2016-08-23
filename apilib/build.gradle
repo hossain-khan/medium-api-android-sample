@@ -64,6 +64,8 @@ dependencies {
         exclude module: 'org.apache.oltu.oauth2.common'
     }
 
+    // http://www.joda.org/joda-time/dependency-info.html
+    compile 'joda-time:joda-time:2.9.4'
 
     testCompile "junit:junit:$rootProject.junitVersion"
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
