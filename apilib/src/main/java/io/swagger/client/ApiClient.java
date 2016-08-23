@@ -121,6 +121,12 @@ public class ApiClient {
 
         okBuilder = new OkHttpClient.Builder();
 
+        // [DEV NOTE: Added custom code to add interceptors for authorizations]
+        for (Map.Entry<String, Interceptor> entry : apiAuthorizations.entrySet()) {
+            okBuilder.addInterceptor(entry.getValue());
+        }
+
+        // [DEV NOTE: Added http logging interceptor for logcat debugging]
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         okBuilder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
