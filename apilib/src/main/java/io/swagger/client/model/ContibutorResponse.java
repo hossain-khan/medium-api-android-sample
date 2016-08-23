@@ -38,7 +38,7 @@ import java.util.List;
  * list of contributors for a given publication
  */
 @ApiModel(description = "list of contributors for a given publication")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-08-21T22:52:12.608-04:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-08-22T21:34:48.259-04:00")
 public class ContibutorResponse   {
   @SerializedName("data")
   private List<Contibutor> data = new ArrayList<Contibutor>();

@@ -55,7 +55,9 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "Bearer") { 
+            if (authName == "OauthSecurity") { 
+                auth = new OAuth(OAuthFlow.accessCode, "https://medium.com/m/oauth/authorize", "https://medium.com/v1/tokens", "basicProfile, listPublications, publishPost, uploadImage");
+            } else if (authName == "BearerToken") { 
                 auth = new ApiKeyAuth("header", "Authorization");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");

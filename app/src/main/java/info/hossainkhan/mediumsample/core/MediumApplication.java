@@ -25,6 +25,11 @@ public class MediumApplication extends Application {
      */
     private static final String BEARER = "Bearer";
 
+    /**
+     * Auth type name for API key bearer token.
+     */
+    private static final String AUTH_ID_API_KEY_TOKEN = "BearerToken";
+
     private ApiClient apiClient;
     private User userInfo;
 
@@ -45,7 +50,8 @@ public class MediumApplication extends Application {
      */
     public ApiClient getApiClient() {
         if(apiClient == null) {
-            apiClient = new ApiClient(BEARER, BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
+            apiClient = new ApiClient(AUTH_ID_API_KEY_TOKEN,
+                    BEARER + " " + MediumApplication.MEDIUM_USER_INTEGRATION_TOKEN);
             apiClient.createDefaultAdapter();
         }
         return apiClient;
