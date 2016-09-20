@@ -1,4 +1,9 @@
 language: android
+
+addons:
+    code_climate:
+        repo_token: 46914ec23f88e56e7296649e8527b24501567b0ce8e113398c138e13430c39ba
+
 android:
   components:
     - platform-tools
