@@ -1,4 +1,6 @@
-# UPDATE - Medium.com API is no longer supported.
+* **UPDATE #1** _(Mar, 2019)_ - ~Medium.com API is no longer supported.~
+* **UPDATE #2** _(May, 2020)_ - Seems like Medium now allows you to create self-access tokens. API is operational again `¯\_(ツ)_/¯`
+
 -----
 > Looks like Medium does not support API anymore. The post with API info has been taken down - https://blog.medium.com/welcome-to-the-medium-api-3418f956552 _(Unlisted)_
 -----
