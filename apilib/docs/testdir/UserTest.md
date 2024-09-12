@@ -1,6 +1,8 @@
 
 # User
 
+Updated: 2021-07-29
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
