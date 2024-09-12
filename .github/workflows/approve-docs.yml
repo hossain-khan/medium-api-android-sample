@@ -22,8 +22,8 @@ jobs:
           echo "• Changed files in this PR:"
           echo "$CHANGED_FILES"
 
-          # Check if any changes were made outside the 'docs/**/*.md' path
-          UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^docs/.*\.md$')
+          # Check if any changes were made outside the 'apilib/docs/**/*.md' path
+          UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^apilib/docs/.*\.md$')
 
           if [ -n "$UNWANTED_FILES" ]; then
             echo "• Changes detected outside doc site files"
