@@ -30,6 +30,8 @@ jobs:
             echo "$UNWANTED_FILES"
             echo "• Stopping workflow - this PR can not be auto-approved."
             exit 1  # Exit with a non-zero code to stop the workflow
+          else
+            echo "• No unwanted file changes detected"
           fi
 
       - uses: hmarr/auto-approve-action@v4
