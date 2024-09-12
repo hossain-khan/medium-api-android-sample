@@ -35,6 +35,7 @@ Once code is generated, you may choose any of the available options.
 During my testing I found bug in generated `ApiClient` class related to ApiKey authentication. Update following block of code to make it compatible with api key authentication. 
 
 On `createDefaultAdapter()` method implementation, after `okBuilder` is created, add the interceptors to builder.
+
 ```java
 public void createDefaultAdapter() {
     // ... more code above ...
