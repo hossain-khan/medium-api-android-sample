@@ -24,8 +24,20 @@ jobs:
 
           # Check if any changes were made outside the 'apilib/docs/**/*.md' path
           UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^apilib/docs/.*\.md$')
+          
+          # Check the size and content of UNWANTED_FILES
+          echo "• Size of UNWANTED_FILES:"
+          echo "$UNWANTED_FILES" | wc
+          echo "• Content of UNWANTED_FILES:"
+          echo "$UNWANTED_FILES"
 
-          if [ -n "$UNWANTED_FILES" ]; then
+          # Store the result of the check in a variable
+          UNWANTED_FILES_CHECK=$( [ -n "$UNWANTED_FILES" ] && echo "true" || echo "false" )
+      
+          # Debug the variable
+          echo "• UNWANTED_FILES_CHECK: $UNWANTED_FILES_CHECK"
+      
+          if [ "$UNWANTED_FILES_CHECK" = "true" ]; then
             echo "• Changes detected outside doc site files"
             echo "$UNWANTED_FILES"
             echo "• Stopping workflow - this PR can not be auto-approved."
