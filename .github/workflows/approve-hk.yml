@@ -1,0 +1,16 @@
+name: Auto approve HK
+
+# https://github.com/marketplace/actions/auto-approve
+
+on: pull_request
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: github.actor == 'hossain-khan'
+    steps:
+      - uses: hmarr/auto-approve-action@v4
+        with:
+          review-message: "Auto approved automated PR"
