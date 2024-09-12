@@ -1,6 +1,8 @@
 
 # PostDetails
 
+Details about the post.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
