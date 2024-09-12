@@ -2,36 +2,36 @@ name: Auto-approve Docs
 
 on:
   pull_request:
-  paths:
-    - 'apilib/docs/**/*.md'
+    paths:
+      - 'apilib/docs/**/*.md'
 
 jobs:
   approve-docs:
-  runs-on: [ ubuntu-latest ]
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 100
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
 
-    - name: Check for non-docs file changes
-      run: |
-        # List all files changed in this push
-        CHANGED_FILES=$(git diff --name-only $(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}) ${{ github.event.pull_request.head.sha }})
-        
-        echo "• Changed files in this PR:"
-        echo "$CHANGED_FILES"
-        
-        # Check if any changes were made outside the 'docs/**/*.md' path
-        UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^docs/.*\.md$')
-        
-        if [ -n "$UNWANTED_FILES" ]; then
-          echo "• Changes detected outside doc site files"
-          echo "$UNWANTED_FILES"
-          echo "• Stopping workflow - this PR can not be auto-approved."
-          exit 1  # Exit with a non-zero code to stop the workflow
-        fi
+      - name: Check for non-docs file changes
+        run: |
+          # List all files changed in this push
+          CHANGED_FILES=$(git diff --name-only $(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}) ${{ github.event.pull_request.head.sha }})
 
-    - uses: hmarr/auto-approve-action@v4
-      with:
-        review-message: "Auto approved automated PR from docs workflow"
+          echo "• Changed files in this PR:"
+          echo "$CHANGED_FILES"
+
+          # Check if any changes were made outside the 'docs/**/*.md' path
+          UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^docs/.*\.md$')
+
+          if [ -n "$UNWANTED_FILES" ]; then
+            echo "• Changes detected outside doc site files"
+            echo "$UNWANTED_FILES"
+            echo "• Stopping workflow - this PR can not be auto-approved."
+            exit 1  # Exit with a non-zero code to stop the workflow
+          fi
+
+      - uses: hmarr/auto-approve-action@v4
+        with:
+          review-message: "Auto approved automated PR from docs workflow"
