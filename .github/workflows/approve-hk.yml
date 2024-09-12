@@ -2,9 +2,7 @@ name: Auto approve HK
 
 # https://github.com/marketplace/actions/auto-approve
 
-on:
-  pull_request:
-    branches: [ "master" ]
+on: pull_request_target
 
 jobs:
   auto-approve:
