@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Medium API for Users.
+ */
 public interface UsersApi {
   /**
    * User details
