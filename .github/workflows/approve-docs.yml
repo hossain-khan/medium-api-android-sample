@@ -23,17 +23,16 @@ jobs:
           echo "$CHANGED_FILES"
 
           # Check if any changes were made outside the 'apilib/docs/**/*.md' path
-          echo "$CHANGED_FILES" | grep -Ev '^apilib/docs/.*\.md$' > /dev/null
-          grep_exit_status=$?
-          #UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^apilib/docs/.*\.md$')
-          
-          if [ "$grep_exit_status" -eq 0 ]; then
+          set +e  # Disable exit on error temporarily
+          UNWANTED_FILES=$(echo "$CHANGED_FILES" | grep -Ev '^apilib/docs/.*\.md$')
+  
+  
+          set -e  # Re-enable exit on error
+          if [ -n "$UNWANTED_FILES" ]; then
             echo "• Changes detected outside doc site files"
             echo "$UNWANTED_FILES"
             echo "• Stopping workflow - this PR can not be auto-approved."
             exit 1  # Exit with a non-zero code to stop the workflow
-          else
-            echo "• No unwanted file changes detected"
           fi
 
       - uses: hmarr/auto-approve-action@v4
