@@ -1,6 +1,8 @@
 
 # Post
 
+Post objects represent the content of a post on the site. They are used to create, update, and delete posts.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
