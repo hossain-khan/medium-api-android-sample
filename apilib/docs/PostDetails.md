@@ -1,7 +1,7 @@
 
 # PostDetails
 
-Details about the post. You can create and update posts using the [Medium API](#MediumApi).
+Details about the post.
 
 ## Properties
 Name | Type | Description | Notes
