@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Medium API for Posts.
+ */
 public interface PostsApi {
   /**
    * Create Publication Post
