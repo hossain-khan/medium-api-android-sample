@@ -1,7 +1,7 @@
 
 # PostDetails
 
-Details about the post.
+Details about the post. Multi file update
 
 ## Properties
 Name | Type | Description | Notes
