@@ -39,7 +39,9 @@ import io.swagger.client.auth.OAuth;
 import io.swagger.client.auth.OAuth.AccessTokenListener;
 import io.swagger.client.auth.OAuthFlow;
 
-
+/**
+ * ApiClient is a helper class to configure and create API clients.
+ */
 public class ApiClient {
 
     private Map<String, Interceptor> apiAuthorizations;

@@ -1,9 +1,7 @@
 
 # User
 
-Updated: 2021-07-29
-Again updated with more content.
-Multi file update
+User information on Medium.
 
 ## Properties
 Name | Type | Description | Notes
